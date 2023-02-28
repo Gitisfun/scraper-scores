@@ -19,8 +19,7 @@ export const fetchScores = async () => {
     }
     return null;
   } catch (err) {
-    console.log(err);
-    throw new Error("Something went wrong when scraping");
+    throw new Error("Something went wrong when scraping root");
   }
 };
 
@@ -29,7 +28,6 @@ const findRoot = ($, root) => {
     const temp = $(root).find("table");
     return $(temp.first()).find("tbody").first();
   } catch (err) {
-    console.log(err);
     throw new Error("Something went wrong when scraping root");
   }
 };
@@ -40,7 +38,6 @@ const findRounds = ($, root) => {
 
     return temp;
   } catch (err) {
-    console.log(err);
     throw new Error("Something went wrong when finding rounds");
   }
 };
@@ -56,7 +53,6 @@ const scrapeRounds = ($, root) => {
         const date = cleanScoreRoundTitle($(span).text());
         const tempDate = formatToCorrectDate(date);
         const formatedDate = formatDateToString(tempDate);
-        console.log(formatedDate);
         dateList.push(formatedDate);
       } else {
         roundList.push(element);
@@ -111,7 +107,6 @@ const scrapeRounds = ($, root) => {
     }
     return games;
   } catch (err) {
-    console.log(err);
     throw new Error("Something went wrong when scraping games");
   }
 };

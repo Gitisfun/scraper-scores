@@ -1,5 +1,5 @@
 import { closestIndexTo, format } from "date-fns";
-import { nlBE } from "date-fns/locale/index.js";
+import { nlBE, te } from "date-fns/locale/index.js";
 
 import { DUTCH_MONTHS, ENGLISH_MONTHS } from "./constants/date.js";
 
@@ -27,7 +27,11 @@ export const findClosestDateIndex = (list) => {
 };
 
 export const formatDateToString = (date) => {
-  if (date) return format(date, "dd MMMM yyyy", { locale: nlBE });
+  if (date) {
+    let temp = format(date, "dd MMMM yyyy");
+    return temp.toLowerCase();
+  }
+
   return "";
 };
 

@@ -16,11 +16,7 @@ export const fetchGamesAndDates = async () => {
       let tempDate = null;
       let currentLeague = null;
 
-      let dates = [
-        { round: "03 september 2022" },
-        { round: "10 september 2022" },
-        { round: "17 september 2022" },
-      ];
+      let dates = [];
       let games = [];
 
       for (const child of content.children()) {
@@ -47,7 +43,6 @@ export const fetchGamesAndDates = async () => {
             const homeTeam = $(columns[2]).text();
             const score = $(columns[3]).text();
             const awayTeam = $(columns[4]).text();
-
             const game = new Game(
               time,
               homeTeam,
@@ -64,7 +59,6 @@ export const fetchGamesAndDates = async () => {
     }
     return null;
   } catch (err) {
-    console.log(err);
     throw new Error("Something went wrong when scraping");
   }
 };

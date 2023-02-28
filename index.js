@@ -6,23 +6,22 @@ import http from "http";
 import cors from "cors";
 
 import clubsRoute from "./src/routes/clubs.js";
+import colorsRoute from "./src/routes/colors.js";
 import datesRoute from "./src/routes/dates.js";
 import gamesRoute from "./src/routes/games.js";
 import rankingsRoute from "./src/routes/rankings.js";
+import refreshRoute from "./src/routes/refresh.js";
+import statisticsRoute from "./src/routes/statistics.js";
 
 import errorHandler from "./src/errors/ErrorHandler.js";
 import ApiError from "./src/errors/ApiError.js";
 import dbo from "./src/database/config.js";
-import { fetchScores } from "./src/api/scores.js";
-import { fetchClubs } from "./src/api/clubs.js";
-
-// cron.schedule("* * * * * *", () => {
-//   console.log("running a task every minute");
-// });
+import cron from "node-cron";
+import { refreshData } from "./src/jobs/index.js";
 
 // fetchScores();
 
-fetchClubs();
+// fetchClubs();
 
 const app = Express();
 const server = http.createServer(app);
@@ -37,9 +36,12 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/clubs/", clubsRoute);
+app.use("/api/colors/", colorsRoute);
 app.use("/api/dates/", datesRoute);
 app.use("/api/games/", gamesRoute);
 app.use("/api/rankings/", rankingsRoute);
+app.use("/api/refresh/", refreshRoute);
+app.use("/api/statistics", statisticsRoute);
 
 app.use((req, res, next) => {
   next(ApiError.notFound("Route not found"));
@@ -47,16 +49,14 @@ app.use((req, res, next) => {
 
 app.use(errorHandler);
 
-dbo.connectToServer(() =>
-  server.listen(port, () => console.log(`Server is running on port ${port}`))
-);
-
-/*
-
-------- TODOS -------
-
-o Remove todos
-
-
-
-*/
+dbo.connectToServer(() => {
+  server.listen(port, () => console.log(`Server is running on port ${port}`));
+  refreshData();
+  const createdTime = new Date();
+  console.log(`Created on ${createdTime.toLocaleTimeString()}`);
+  cron.schedule("0 17,18,19,23 * * SAT", () => {
+    const updatedTime = new Date();
+    refreshData();
+    console.log(`Updated on ${updatedTime.toLocaleTimeString()}`);
+  });
+});

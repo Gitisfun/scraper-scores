@@ -1,14 +1,3 @@
-import { LEAGUES } from "./constants/leagues.js";
-
-export const checkIfInTeamsList = (text, league) => {
-  for (const team of LEAGUES[league].teams) {
-    if (text.includes(team)) {
-      return true;
-    }
-  }
-  return false;
-};
-
 export const withoutDay = (text) => {
   return text.replace("zaterdag", "").trim();
 };
@@ -30,6 +19,10 @@ export const getAwayScore = (score) => {
 export const formatTime = (time) => {
   if (time.includes(".")) return time.replace(".", ":");
   return time;
+};
+
+export const removeSubstring = (text, search) => {
+  return text.replace(search, "").trim();
 };
 
 export const cleanScoreRoundTitle = (text) => {

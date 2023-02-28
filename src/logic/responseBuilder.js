@@ -1,3 +1,5 @@
+import { orderLeagues } from "./league.js";
+
 export const buildRound = (result) => {
   try {
     const list = [];
@@ -17,7 +19,8 @@ export const buildRound = (result) => {
         }
       }
     }
-    return resultList;
+    const temp = orderLeagues(resultList);
+    return temp;
   } catch (err) {
     throw new Error("Error occured when building round");
   }

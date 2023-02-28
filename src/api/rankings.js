@@ -1,6 +1,5 @@
 import axios from "axios";
 import cheerio from "cheerio";
-import { LEAGUES } from "../logic/constants/leagues.js";
 import { RANKINGS_URL } from "../logic/constants/urls.js";
 import { withoutLeague } from "../logic/index.js";
 import { RankingRow } from "../models/rankingRow.js";
@@ -60,7 +59,6 @@ export const fetchRankings = async () => {
     }
     return rankings;
   } catch (err) {
-    console.log(err);
     throw new Error("Something went wrong when scraping");
   }
 };

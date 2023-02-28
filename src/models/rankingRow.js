@@ -20,10 +20,4 @@ export class RankingRow {
     this.goalsAgainst = goalsAgainst;
     this.points = points;
   }
-
-  print() {
-    console.log(
-      `${this.order}\t${this.team}\t\t${this.played}\t${this.win}\t${this.lose}\t${this.draw}\t${this.goalsFor}\t${this.goalsAgainst}\t${this.points}`
-    );
-  }
 }

@@ -7,10 +7,8 @@ import {
 const router = express.Router();
 
 router.get("/", async (req, res, next) => {
-  console.log("League");
   try {
     const league = req.query.league;
-    console.log(league);
     if (league) {
       const result = await getRanking({ league });
       res.send(result);

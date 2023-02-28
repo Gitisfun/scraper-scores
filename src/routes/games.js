@@ -1,27 +1,20 @@
 import express from "express";
 import { getAllDates } from "../database/collections/dates.js";
-import { getGames } from "../database/collections/games.js";
-import {
-  convertToDateList,
-  convertToEnglishDate,
-  findClosestDateIndex,
-} from "../logic/date.js";
+import { getGames, getAllGames } from "../database/collections/games.js";
+import { convertToDateList, convertToEnglishDate, findClosestDateIndex } from "../logic/date.js";
 import { buildRound, buildLeague } from "../logic/responseBuilder.js";
 
 const router = express.Router();
 
 router.get("/", async (req, res, next) => {
-  // const result = await scrapeFromCalendarPage();
-  // // const result = await getAllGames();
-  // // console.log(result);
-  res.send({ message: "This route is not accessible" });
+  const result = await getAllGames();
+  res.send(result);
 });
 
 router.get("/round", async (req, res, next) => {
   try {
     if (req.query.date) {
       const date = convertToEnglishDate(req.query.date);
-
       const result = await getGames({ date });
 
       const list = buildRound(result);
@@ -47,7 +40,6 @@ router.get("/league", async (req, res, next) => {
 
   if (league) {
     const result = await getGames({ league });
-    // console.log(result);
     const list = buildLeague(result);
     res.send(list);
   } else {

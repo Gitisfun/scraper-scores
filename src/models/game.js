@@ -12,9 +12,9 @@ export class Game {
     this.id = uuidv4();
     this.livescore = "";
     this.time = formatTime(time);
-    this.homeTeam = homeTeam;
+    this.homeTeam = homeTeam.trim();
     this.homeScore = getHomeScore(score);
-    this.awayTeam = awayTeam;
+    this.awayTeam = awayTeam.trim();
     this.score = score;
     this.awayScore = getAwayScore(score);
     if (date) this.setDate(date);
@@ -23,11 +23,5 @@ export class Game {
 
   setDate(date) {
     this.date = date;
-  }
-
-  print() {
-    console.log(
-      `${this.time}: ${this.homeTeam} ${this.score} ${this.awayTeam} ${this.date}`
-    );
   }
 }

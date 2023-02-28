@@ -7,9 +7,7 @@ const router = express.Router();
 router.get("/", async (req, res, next) => {
   try {
     const results = await getAllDates();
-    // console.log(results);
     const temp = convertToStringDateList(results);
-    // console.log(temp);
     res.send(temp);
   } catch (err) {
     next(err);

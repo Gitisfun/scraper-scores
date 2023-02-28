@@ -13,6 +13,10 @@ export const getAllGames = async () => {
   return await findAll(GAMES_COLLECTION);
 };
 
+export const getAllGamesFromClub = async (club) => {
+  return await findMany(GAMES_COLLECTION, club);
+};
+
 export const deleteAllFromGames = async () => {
   return await deleteAll(GAMES_COLLECTION);
 };

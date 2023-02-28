@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb";
 import dbo from "./config.js";
 
 export const insertMany = async (collection, list) => {
@@ -24,6 +25,14 @@ export const findMany = async (collection, search) => {
   const result = await db.collection(collection).find(search).toArray();
   if (result) return result;
   return [];
+};
+
+export const update = async (collection, id, key, value) => {
+  const db = dbo.getDb();
+  const result = await db
+    .collection(collection)
+    .updateOne({ _id: ObjectId(id) }, { $set: { [key]: value } });
+  return result;
 };
 
 export const deleteAll = async (collection) => {
