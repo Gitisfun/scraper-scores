@@ -2,7 +2,7 @@ import axios from "axios";
 import cheerio from "cheerio";
 import { SCORES_URL } from "../logic/constants/urls.js";
 import { formatDateToString, formatToCorrectDate } from "../logic/date.js";
-import { cleanScoreRoundTitle } from "../logic/index.js";
+import { cleanScoreRoundTitle, reverseText, withoutJibberish } from "../logic/index.js";
 import { exists } from "../logic/scraper.js";
 import { Game } from "../models/game.js";
 
@@ -15,9 +15,28 @@ export const fetchScores = async () => {
       const content = $(".pageContent");
       const root = findRoot($, content);
       const rounds = findRounds($, root);
-      return scrapeRounds($, rounds);
+      const dates = findDates($, root);
+      const games = scrapeRounds($, rounds);
+      return { dates, games };
     }
     return null;
+  } catch (err) {
+    throw new Error("Something went wrong when scraping root");
+  }
+};
+
+const findDates = ($, root) => {
+  try {
+    const temp = $(root).find(".speeldag");
+    let dates = [];
+    for (let i = 0; i < temp.length; i++) {
+      const date = $(temp[i]).text();
+      const dateOnly = withoutJibberish(date, "expand_moreSpeeldag");
+      const tempDate = formatToCorrectDate(dateOnly);
+      const formattedDate = formatDateToString(tempDate);
+      dates.push({ round: formattedDate });
+    }
+    return dates;
   } catch (err) {
     throw new Error("Something went wrong when scraping root");
   }
@@ -52,8 +71,8 @@ const scrapeRounds = ($, root) => {
         const span = $(element).find("span");
         const date = cleanScoreRoundTitle($(span).text());
         const tempDate = formatToCorrectDate(date);
-        const formatedDate = formatDateToString(tempDate);
-        dateList.push(formatedDate);
+        const formattedDate = formatDateToString(tempDate);
+        dateList.push(formattedDate);
       } else {
         roundList.push(element);
       }
@@ -78,28 +97,14 @@ const scrapeRounds = ($, root) => {
             const homeScore = $(columns[4]).text();
             const awayScore = $(columns[6]).text();
             const score = `${homeScore} - ${awayScore}`;
-            const game = new Game(
-              "",
-              homeTeam,
-              score,
-              awayTeam,
-              dateList[i],
-              tempLeague
-            );
+            const game = new Game("", homeTeam, score, awayTeam, dateList[i], tempLeague);
             games.push(game);
           }
           if (columns.length === 5) {
             const homeTeam = $(columns[0]).text();
             const awayTeam = $(columns[2]).text();
             const score = "UITGESTELD";
-            const game = new Game(
-              "",
-              homeTeam,
-              score,
-              awayTeam,
-              dateList[i],
-              tempLeague
-            );
+            const game = new Game("", homeTeam, score, awayTeam, dateList[i], tempLeague);
             games.push(game);
           }
         }

@@ -49,8 +49,6 @@ app.use((req, res, next) => {
 
 app.use(errorHandler);
 
-console.log("The server is here now OKOKOKO");
-
 dbo.connectToServer(() => {
   server.listen(port, () => console.log(`Server is running on port ${port}`));
   refreshData();

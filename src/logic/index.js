@@ -1,5 +1,14 @@
 export const withoutDay = (text) => {
+  if (text.includes("maandag")) return text.replace("maandag", "").trim();
   return text.replace("zaterdag", "").trim();
+};
+
+export const reverseText = (text) => {
+  return text.split("").reverse().join("");
+};
+
+export const withoutJibberish = (text, removedText) => {
+  return text.replace(removedText, "").trim();
 };
 
 export const withoutLeague = (text) => {
