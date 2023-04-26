@@ -2,7 +2,6 @@ import express from "express";
 import { getAllClubs, getClub } from "../database/collections/clubs.js";
 import { getAllColors } from "../database/collections/colors.js";
 import { getAllGamesFromClub } from "../database/collections/games.js";
-import { refreshData } from "../jobs/index.js";
 import Colors from "../logic/colors.js";
 
 const router = express.Router();

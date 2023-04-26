@@ -19,10 +19,6 @@ import dbo from "./src/database/config.js";
 import cron from "node-cron";
 import { refreshData } from "./src/jobs/index.js";
 
-// fetchScores();
-
-// fetchClubs();
-
 const app = Express();
 const server = http.createServer(app);
 const port = process.env.PORT || 5050;

@@ -1,5 +1,4 @@
 import { closestIndexTo, format } from "date-fns";
-import { nlBE, te } from "date-fns/locale/index.js";
 
 import { DUTCH_MONTHS, ENGLISH_MONTHS } from "./constants/date.js";
 
@@ -21,7 +20,6 @@ export const convertToDateList = (list) => {
 };
 
 export const findClosestDateIndex = (list) => {
-  // const today = new Date("donderdag 17 november 2022 14:30");
   const today = new Date();
   return closestIndexTo(today, list);
 };
