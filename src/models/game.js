@@ -1,15 +1,8 @@
-import { v4 as uuidv4 } from "uuid";
-import { convertToEnglishDate } from "../logic/date.js";
-import {
-  getHomeScore,
-  getAwayScore,
-  formatTime,
-  withoutDay,
-} from "../logic/index.js";
+import { getHomeScore, getAwayScore, formatTime } from "../logic/index.js";
 
 export class Game {
   constructor(time, homeTeam, score, awayTeam, date, league) {
-    this.id = uuidv4();
+    this.id = `${homeTeam}-${awayTeam}-${date}`;
     this.livescore = "";
     this.time = formatTime(time);
     this.homeTeam = homeTeam.trim();
