@@ -16,12 +16,7 @@ const STRIPED = "Gestreept";
 
 const getKitStyle = (text) => {
   if (text.includes("strep") || text.includes("streep")) return STRIPED;
-  else if (
-    text.trim().includes("-") ||
-    text.trim().includes(" ") ||
-    text.trim().includes("/")
-  )
-    return MULTI;
+  else if (text.trim().includes("-") || text.trim().includes(" ") || text.trim().includes("/")) return MULTI;
   return SINGLE;
 };
 
@@ -52,15 +47,14 @@ export const fetchClubs = async () => {
 
         const columns = $(row).children();
         club.setName($(columns[1]).text());
+        club.setLeague($(columns[2]).text());
       }
 
       if ($(row).text().includes(ROW_COLORS)) {
-        // club.colors = $(row).text();
         club.setColors(value);
       }
 
       if (value.includes(ROW_ADDRESS)) {
-        // club.address = $(row).text();
         club.setAddress(value);
       }
 
