@@ -20,11 +20,9 @@ router.get("/match", async (req, res, next) => {
     const home = req.query.home;
     const away = req.query.away;
 
-    console.log(home);
-    console.log(away);
     if (home && away) {
-      const homeTeam = await getClub({ name: home });
-      const awayTeam = await getClub({ name: away });
+      const homeTeam = await getClub({ name: { $regex: home, $options: "i" } });
+      const awayTeam = await getClub({ name: { $regex: away, $options: "i" } });
 
       const homeTeamMatches = await getAllGamesFromClub({
         $or: [{ homeTeam: home }, { awayTeam: home }],
