@@ -97,6 +97,7 @@ export const loadInitialData = async () => {
 };
 
 export const refreshData = async () => {
+  //await scrapeFromClubsPage();
   await scrapeAllGames();
   await scrapeFromRankingPage();
 };

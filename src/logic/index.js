@@ -37,3 +37,7 @@ export const removeSubstring = (text, search) => {
 export const cleanScoreRoundTitle = (text) => {
   return text.replace("expand_moreSpeeldag", "").trim();
 };
+
+export const exists = ($, root, element) => {
+  return $(root).find(element).length > 0;
+};

@@ -1,5 +1,4 @@
 import { closestIndexTo, format } from "date-fns";
-
 import { DUTCH_MONTHS, ENGLISH_MONTHS } from "./constants/date.js";
 
 export const convertToEnglishDate = (text) => {

@@ -6,12 +6,12 @@ import http from "http";
 import cors from "cors";
 
 import clubsRoute from "./src/routes/clubs.js";
-import colorsRoute from "./src/routes/colors.js";
 import datesRoute from "./src/routes/dates.js";
 import gamesRoute from "./src/routes/games.js";
 import rankingsRoute from "./src/routes/rankings.js";
 import refreshRoute from "./src/routes/refresh.js";
 import statisticsRoute from "./src/routes/statistics.js";
+import testRoute from "./src/routes/test.js";
 
 import errorHandler from "./src/errors/ErrorHandler.js";
 import ApiError from "./src/errors/ApiError.js";
@@ -32,12 +32,12 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/clubs/", clubsRoute);
-app.use("/api/colors/", colorsRoute);
 app.use("/api/dates/", datesRoute);
 app.use("/api/games/", gamesRoute);
 app.use("/api/rankings/", rankingsRoute);
 app.use("/api/refresh/", refreshRoute);
 app.use("/api/statistics", statisticsRoute);
+app.use("/api/test", testRoute);
 
 app.use((req, res, next) => {
   next(ApiError.notFound("Route not found"));

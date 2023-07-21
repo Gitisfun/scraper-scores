@@ -1,6 +1,6 @@
 import express from "express";
+import { UNIQUE_COLOR_LIST } from "../api/colors.js";
 import { getAllClubs, getClub } from "../database/collections/clubs.js";
-import { getAllColors } from "../database/collections/colors.js";
 import { getAllGamesFromClub } from "../database/collections/games.js";
 import { getRanking } from "../database/collections/rankings.js";
 import Colors from "../logic/colors.js";
@@ -31,7 +31,7 @@ router.get("/match", async (req, res, next) => {
         $or: [{ homeTeam: away }, { awayTeam: away }],
       });
 
-      const colors = await getAllColors();
+      const colors = UNIQUE_COLOR_LIST;
 
       homeTeam.kit = {
         shirt: Colors.getColors(colors, homeTeam.shirtColor),

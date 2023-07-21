@@ -2,8 +2,7 @@ import axios from "axios";
 import cheerio from "cheerio";
 import { SCORES_URL } from "../logic/constants/urls.js";
 import { formatDateToString, formatToCorrectDate } from "../logic/date.js";
-import { cleanScoreRoundTitle, reverseText, withoutJibberish } from "../logic/index.js";
-import { exists } from "../logic/scraper.js";
+import { cleanScoreRoundTitle, exists, withoutJibberish } from "../logic/index.js";
 import { Game } from "../models/game.js";
 
 export const fetchScores = async () => {
