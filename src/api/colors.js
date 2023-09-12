@@ -110,6 +110,7 @@ export const UNIQUE_COLOR_LIST = [
   },
   { code: "donker blauw", kit: Kit.MEERDERE, colors: [Colors.DARK_BLUE] },
   { code: "zwart/rood", kit: Kit.MEERDERE, colors: [Colors.RED, Colors.BLACK] },
+  { code: "rood/zwart", kit: Kit.MEERDERE, colors: [Colors.BLACK, Colors.RED] },
   { code: "blauw met geel", kit: Kit.MEERDERE, colors: [Colors.DARK_BLUE, Colors.YELLOW] },
   { code: "geel-rood gestreept", kit: Kit.GESTREEPT, colors: [Colors.YELLOW, Colors.RED] },
   { code: "zwart rood gestreept", kit: Kit.GESTREEPT, colors: [Colors.RED, Colors.BLACK] },
