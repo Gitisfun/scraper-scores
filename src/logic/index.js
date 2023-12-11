@@ -1,5 +1,10 @@
 export const withoutDay = (text) => {
   if (text.includes("maandag")) return text.replace("maandag", "").trim();
+  if (text.includes("dinsdag")) return text.replace("dinsdag", "").trim();
+  if (text.includes("woensdag")) return text.replace("woensdag", "").trim();
+  if (text.includes("donderdag")) return text.replace("donderdag", "").trim();
+  if (text.includes("vrijdag")) return text.replace("vrijdag", "").trim();
+  if (text.includes("zondag")) return text.replace("zondag", "").trim();
   return text.replace("zaterdag", "").trim();
 };
 
