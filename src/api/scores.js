@@ -102,8 +102,9 @@ const scrapeRounds = ($, root) => {
           if (columns.length === 5) {
             const homeTeam = $(columns[0]).text();
             const awayTeam = $(columns[2]).text();
-            const score = $(columns[5]).text();
-            const game = new Game("", homeTeam, score, awayTeam, dateList[i], tempLeague);
+            const status = $(columns[4]).text();
+            const score = ""
+            const game = new Game("", homeTeam, score, awayTeam, dateList[i], tempLeague, status);
             games.push(game);
           }
         }

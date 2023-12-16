@@ -7,25 +7,42 @@ import { createDates, deleteAllFromDates } from "../database/collections/dates.j
 import { createGames, deleteAllFromGames } from "../database/collections/games.js";
 import { createRankings, deleteAllFromRankings } from "../database/collections/rankings.js";
 
-const removeDuplicates = (data) => {
-  let uniqueData = data.reduce((acc, obj) => {
-    // Check if the score property is not empty
-    if (obj.score !== "-") {
-      // Check if the current object has a duplicate ID
-      let existingObj = acc.find((t) => t.id === obj.id);
-      if (!existingObj) {
-        acc.push(obj);
-      } else if (existingObj.score === "-") {
-        // If the existing object has no score, replace it with the current object
-        acc[acc.indexOf(existingObj)] = obj;
+const removeDuplicateGames = (games, scores) => {
+  const duplicateIds = [];
+
+  for (let i = 0; i < games.length; i++) {
+    const game = games[i];
+    for (let j = 0; j < scores.length; j++) {
+      const score = scores[j];
+      if (game?.id === score?.id) {
+        duplicateIds.push(game?.id);
+        score.time = game.time;
       }
-    } else {
-      // If the score property is empty, add it to the new array
-      acc.push(obj);
     }
-    return acc;
-  }, []);
-  return uniqueData;
+  }
+
+  const tempGames = games.filter((x) => !duplicateIds.includes(x.id));
+
+  return [...tempGames, ...scores];
+};
+
+const removeDuplicateDates = (data) => {
+  const uniqueMap = {};
+
+  const uniqueArray = data.filter((obj) => {
+    // Use the 'id' property as the key for checking uniqueness
+    const key = obj.round;
+
+    // If the key is not in the uniqueMap, add it and return true (to keep the object)
+    if (!uniqueMap[key]) {
+      uniqueMap[key] = true;
+      return true;
+    }
+
+    // If the key is already in the uniqueMap, return false (to filter out the duplicate)
+    return false;
+  });
+  return uniqueArray;
 };
 
 export const scrapeAllGames = async () => {
@@ -33,16 +50,16 @@ export const scrapeAllGames = async () => {
     const games = await fetchGamesAndDates();
     const scores = await fetchScores();
 
-    const allGames = [...games.games, ...scores.games];
     const allDates = [...games.dates, ...scores.dates];
 
-    const allGamesWithoutDuplicates = removeDuplicates(allGames);
+    const allGamesWithoutDuplicates = removeDuplicateGames(games.games, scores.games);
+    const allDatesWithoutDuplicates = removeDuplicateDates(allDates);
 
-    if (allGames && allDates) {
+    if (allGamesWithoutDuplicates && allDatesWithoutDuplicates) {
       const deletedResultGames = await deleteAllFromGames();
       const insertedResultGames = await createGames(allGamesWithoutDuplicates);
       const deletedResultDates = await deleteAllFromDates();
-      const insertedResultDates = await createDates(allDates);
+      const insertedResultDates = await createDates(allDatesWithoutDuplicates);
 
       if (!deletedResultDates.acknowledged) throw new Error("Failed to delete dates");
       if (!deletedResultGames.acknowledged) throw new Error("Failed to delete records");
@@ -50,7 +67,7 @@ export const scrapeAllGames = async () => {
       if (!insertedResultDates.acknowledged) throw new Error("Failed to insert dates");
     }
 
-    return true;
+    return allGamesWithoutDuplicates;
   } catch (err) {
     return false;
   }
