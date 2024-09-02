@@ -24,7 +24,7 @@ export const fetchClubs = async () => {
   try {
     const __filename = fileURLToPath(import.meta.url);
     const __dirname = path.dirname(__filename);
-    const file = fs.readFileSync(`${__dirname}/clubs2023.html`);
+    const file = fs.readFileSync(`${__dirname}/clubs2024.html`);
     const $ = cheerio.load(file);
 
     const content = $(".table-responsive");
