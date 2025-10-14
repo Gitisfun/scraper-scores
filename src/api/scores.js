@@ -31,6 +31,7 @@ const findDates = ($, root) => {
     for (let i = 0; i < temp.length; i++) {
       const date = $(temp[i]).text();
       const dateOnly = withoutJibberish(date, "expand_moreSpeeldag");
+      if(dateOnly === "00-00-0000") break;
       const tempDate = formatToCorrectDate(dateOnly);
       const formattedDate = formatDateToString(tempDate);
       dates.push({ round: formattedDate });

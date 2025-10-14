@@ -24,11 +24,15 @@ export const findClosestDateIndex = (list) => {
 };
 
 export const formatDateToString = (date) => {
-  if (date) {
-    let temp = format(date, "dd MMMM yyyy");
-    return temp.toLowerCase();
+  try {
+    if (date) {
+      let temp = format(date, "dd MMMM yyyy");
+      return temp.toLowerCase();
+    }
+    
+  } catch (error) {
+    return "";
   }
-
   return "";
 };
 
